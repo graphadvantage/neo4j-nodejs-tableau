@@ -1,0 +1,58 @@
+= Neo4j - Tableau Integration
+
+== Neo4j Tableau Web Data Connector
+
+Tableau 9.1 includes the Web Data Connector SDK, which lets you connect to any web data accessible over HTTP. You can follow the WDC Tutorial to read about the details: http://onlinehelp.tableau.com/current/api/wdc/en-us/help.htm
+
+The WDC for Neo4j consists of a HTML page including a form and JavaScript code to leverage the Tableau WDC API and to process Cypher queries against Neo4j Transactional HTTP API via Ajax call. 
+The JSON result set will be converted into a table and then passed into the Tableau workbook. 
+
+The Web Data Connector requires a hosted HTML page to pass the query to Neo4j and return the results directly to Tableau using JavaScript.
+
+image::documentation/img/image007.png[width=400]
+
+We also provide this as an hosted version on GitHub as GitHub pages. 
+http://neo4j-contrib.github.io/neo4j-tableau/website/Neo4jWdc.html[Open this link to see it in action.]
+
+=== Connect from Tableau
+
+Start Tableau Desktop and choose to connect a WDC (Web Data Connector):
+
+image::documentation/img/image003.png[width=300]
+
+Enter the URL of your hosted Neo4jWdc.html page in the selection popup.
+
+Now the Neo4jWdc Form appears.
+
+Enter the required details, the Cypher Query and optional choose result set type.
+
+After query execution the created and loaded *Tableau Workbook* will appear and shows the data source or extract: *Neo4j*, the name we’ve entered, and the dimensions and measures from the Cypher query result set.
+
+image::documentation/img/image013.png[width=300]
+
+Now we can easily start analyzing the Data from Neo4j:
+
+*The link:./documentation/neo4j-tableau-web-data-connector.adoc[documentation] details installation, usage and configuration of the Web Data Connector.*
+
+=== TDE File Generator Extension
+
+We also provide a Neo4j Server extension to generate TDE files to be used with Tableau Desktop and Server.
+
+*Read more about that approach in link:./documentation/tde-file-generation.adoc[our documentation].*
+
+To create a TDE from the results of a Neo4j Cypher query, pass for instance the following query:
+
+[source,cypher]
+----
+MATCH (n:Movie) RETURN n
+----
+
+To this URL: `http://localhost:7474/export/tableau/tde/MATCH+(n%3AMovie)+RETURN+n`
+
+It will generate and return a TDE file for usage in Tableau.
+
+== Versions
+
+* This code has been tested on Neo4j 3.0 versions. 
+* This code has been tested against Tableau 9.1.
+* The TDE format should be able to be read by Tableau versions 7 and higher.
